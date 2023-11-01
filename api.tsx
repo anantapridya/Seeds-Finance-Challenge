@@ -13,22 +13,32 @@ export const getAllPost = async (
   page: number,
   query: string
 ): Promise<IPost[]> => {
-  const res = await fetch(
-    `${baseURL}/posts?per_page=${number_perpage}&page=${page}&body=${query}`,
-    {
-      next: { revalidate: 0 },
-    }
-  );
-  // const data: IPost[] = await res.json();
-  // const header: number = parseInt(res.headers.get("X-Pagination-Pages"));
-  return await res.json()
+  try {
+    const res = await fetch(
+      `${baseURL}/posts?per_page=${number_perpage}&page=${page}&body=${query}`,
+      {
+        next: { revalidate: 0 },
+      }
+    );
+    // const data: IPost[] = await res.json();
+    // const header: number = parseInt(res.headers.get("X-Pagination-Pages"));
+    return await res.json();
+  } catch (error) {
+    console.log("Error Message: ", error);
+    throw error;
+  }
 };
 
 export const getAllComment = async (): Promise<IComment[]> => {
-  const res = await fetch(`${baseURL}/comments`, {
-    next: { revalidate: 0 },
-  });
-  return await res.json();
+  try {
+    const res = await fetch(`${baseURL}/comments`, {
+      next: { revalidate: 0 },
+    });
+    return await res.json();
+  } catch (error) {
+    console.log("Error Message: ", error);
+    throw error;
+  }
 };
 
 export const getAllUser = async (
@@ -36,27 +46,42 @@ export const getAllUser = async (
   page: number,
   query: string
 ): Promise<IUser[]> => {
-  const res = await fetch(
-    `${baseURL}/users?per_page=${number_perpage}&page=${page}&name=${query}`,
-    {
-      next: { revalidate: 0 },
-    }
-  );
-  return await res.json();
+  try {
+    const res = await fetch(
+      `${baseURL}/users?per_page=${number_perpage}&page=${page}&name=${query}`,
+      {
+        next: { revalidate: 0 },
+      }
+    );
+    return await res.json();
+  } catch (error) {
+    console.log("Error Message: ", error);
+    throw error;
+  }
 };
 
 export const getUserDetail = async (id: number) => {
-  const res = await fetch(`${baseURL}/users/${id}`, {
-    next: { revalidate: 0 },
-  });
-  return await res.json();
+  try {
+    const res = await fetch(`${baseURL}/users/${id}`, {
+      next: { revalidate: 0 },
+    });
+    return await res.json();
+  } catch (error) {
+    console.log("Error Message: ", error);
+    throw error;
+  }
 };
 
 export const getCommentByPostId = async (id: number) => {
-  const res = await fetch(`${baseURL}/posts/${id}/comments`, {
-    next: { revalidate: 0 },
-  });
-  return await res.json();
+  try {
+    const res = await fetch(`${baseURL}/posts/${id}/comments`, {
+      next: { revalidate: 0 },
+    });
+    return await res.json();
+  } catch (error) {
+    console.log("Error Message: ", error);
+    throw error;
+  }
 };
 
 export const postUser = async (
@@ -65,35 +90,45 @@ export const postUser = async (
   gender: "male" | "female",
   status: "active" | "inactive"
 ) => {
-  const data = {
-    name: name,
-    email: email,
-    gender: gender,
-    status: status,
-  };
-  const res = await fetch(`${baseURL}/users`, {
-    method: "POST",
-    next: { revalidate: 0 },
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${bearerToken}`,
-    },
-    body: JSON.stringify(data),
-  });
+  try {
+    const data = {
+      name: name,
+      email: email,
+      gender: gender,
+      status: status,
+    };
+    const res = await fetch(`${baseURL}/users`, {
+      method: "POST",
+      next: { revalidate: 0 },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${bearerToken}`,
+      },
+      body: JSON.stringify(data),
+    });
 
-  return await res.json();
+    return await res.json();
+  } catch (error) {
+    console.log("Error Message: ", error);
+    throw error;
+  }
 };
 
 export const deleteUser = async (id: number) => {
-  const res = await fetch(`${baseURL}/users/${id}`, {
-    method: "DELETE",
-    next: { revalidate: 0 },
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${bearerToken}`,
-    },
-  });
-  return res;
+  try {
+    const res = await fetch(`${baseURL}/users/${id}`, {
+      method: "DELETE",
+      next: { revalidate: 0 },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${bearerToken}`,
+      },
+    });
+    return res;
+  } catch (error) {
+    console.log("Error Message: ", error);
+    throw error;
+  }
 };
 
 export const editUser = async (
@@ -103,19 +138,24 @@ export const editUser = async (
   gender: "male" | "female",
   status: "active" | "inactive"
 ) => {
-  const data = {
-    name: name,
-    email: email,
-    gender: gender,
-    status: status,
-  };
-  const res = await fetch(`${baseURL}/users/${id}`, {
-    method: "PUT",
-    next: { revalidate: 0 },
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${bearerToken}`,
-    },
-    body: JSON.stringify(data)
-  });
+  try {
+    const data = {
+      name: name,
+      email: email,
+      gender: gender,
+      status: status,
+    };
+    const res = await fetch(`${baseURL}/users/${id}`, {
+      method: "PUT",
+      next: { revalidate: 0 },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${bearerToken}`,
+      },
+      body: JSON.stringify(data),
+    });
+  } catch (error) {
+    console.log("Error Message: ", error);
+    throw error;
+  }
 };
