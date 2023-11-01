@@ -7,6 +7,9 @@ import { editUser, getAllUser, postUser } from "../../../api";
 import DataPagination from "../components/DataPagination";
 import { IUser } from "../../../type/type";
 import { Alert, Radio } from "antd";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const RadioGroup = Radio.Group;
 
 export default function User() {
@@ -14,24 +17,24 @@ export default function User() {
   const [query, setQuery] = useState<string>("");
   const [pageData, setPageData] = useState<number>(1);
   const [pageSizeData, setPageSizeData] = useState<number>(10);
-  const [id, setId] = useState<number | any>()
+  const [id, setId] = useState<number | any>();
   const [name, setName] = useState<string | undefined | any>();
   const [email, setEmail] = useState<string | any>();
   const [gender, setGender] = useState<"male" | "female" | "" | any>();
   const [status, setStatus] = useState<"active" | "inactive" | "" | any>();
   const [isComplete, setIsComplete] = useState<boolean>(false);
   const [addUser, setAddUser] = useState<boolean>(false);
-  const [isChange, setIsChange] = useState<boolean>(false)
-  const [isEdit, setIsEdit] = useState<boolean>(false)
+  const [isChange, setIsChange] = useState<boolean>(false);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await getAllUser(pageSizeData, pageData, query);
-        // const user: IUser[] = await getAllUser(50, 1)
+      // const user: IUser[] = await getAllUser(50, 1)
       // const totalPages = parseInt(getAllPost.headers.get("X-Pagination-Pages"));
       // const totalPages = parseInt(response.headers.get("X-Pagination-Pages"));
       // const totalPages = parseInt(data.get("X-Pagination-Pages"))
-      console.log(data);
+      // console.log(data);
       setDataUser(data);
       // setTotalPages(Number(data.header))
       //   setDataPost(data.data)
@@ -57,64 +60,74 @@ export default function User() {
   const handlePost = async () => {
     const response = await postUser(name, email, gender, status);
     console.log(response);
-    setIsChange(!isChange)
-    if(response.id){
-      alert(`User: ${response.id} berhasil dibuat`)
-    } else{
-      setIsChange(!isChange)
-      alert(`${response[0].field}: ${response[0].message}`)
-      // return(
-      //   <Alert message={`User: Berhasil di Buat`} type="success" banner closable />
-      // )
+    setIsChange(!isChange);
+    if (response.id) {
+      // alert(`User: ${response.id} berhasil dibuat`);
+      toast.success(`User: ${response.id} berhasil dibuat`, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        pauseOnHover: true,
+        theme: "dark",
+      });
+    } else {
+      setIsChange(!isChange);
+      toast.error(`${response[0].field}: ${response[0].message}`, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        pauseOnHover: true,
+        theme: "dark",
+      });
     }
     handleClearInput();
   };
 
-  const handleEdit = async() => {
+  const handleEdit = async () => {
     const res = await editUser(id, name, email, gender, status);
     console.log(res);
-    setIsChange(!isChange)
-    handleClearInput()
-    setAddUser(false)
-  }
+    setIsChange(!isChange);
+    handleClearInput();
+    setAddUser(false);
+  };
 
   const handlePaginationChange = async (page: number, pageSize: number) => {
     setPageData(page);
     setPageSizeData(pageSize);
     console.log({ pageData, pageSizeData });
   };
-  const handleDataChange = async(dataChange: any) => {
-    console.log(dataChange)
-    setIsChange(!isChange)
-    setIsEdit(dataChange.isEdit)
-    setAddUser(dataChange.isEdit? true : false)
-    setId(dataChange.id)
+  const handleDataChange = async (dataChange: any) => {
+    console.log(dataChange);
+    setIsChange(!isChange);
+    setIsEdit(dataChange.isEdit);
+    setAddUser(dataChange.isEdit ? true : false);
+    setId(dataChange.id);
     setName(dataChange.name);
     setEmail(dataChange.email);
     setGender(dataChange.gender);
     setStatus(dataChange.status);
-  }
+  };
   return (
     <div className="w-full flex flex-col justify-center items-center py-8">
       {/* <button className="absolute top-10 left-24">Back</button> */}
       {/* <Alert message="Berhasil di Buat" type="success" banner closable /> */}
-          <Navbar select="user" />
+      <Navbar select="user" />
+      <ToastContainer />
       <div className="w-[800px] mt-10 flex flex-col justify-center items-center ">
-        <div>
-        </div>
+        <div></div>
         <p className="font-bold text-3xl my-8">Users</p>
         <div className="w-full">
           <button
             onClick={() => {
               setAddUser(!addUser);
               handleClearInput();
-              setIsEdit(false)
+              setIsEdit(false);
             }}
             className={`${
               addUser ? "bg-red-700" : " bg-blue-800"
             } p-3 rounded-xl mb-3 font-bold`}
           >
-            {addUser? "Close" : "Add User"}
+            {addUser ? "Close" : "Add User"}
           </button>
           <div
             className={`grid grid-cols-4 gap-y-3 p-4 rounded-xl my-3 bg-slate-800 ${
@@ -167,7 +180,7 @@ export default function User() {
             <button
               className={`col-span-4 mt-5 py-2 font-bold ${
                 isComplete ? "bg-blue-800" : "bg-gray-500"
-              } ${isEdit? " hidden " : "inline"}`}
+              } ${isEdit ? " hidden " : "inline"}`}
               onClick={() => handlePost()}
               disabled={!isComplete}
             >
@@ -176,7 +189,7 @@ export default function User() {
             <button
               className={`col-span-4 mt-5 py-2 font-bold ${
                 isComplete ? "bg-yellow-600" : "bg-gray-500"
-              } ${isEdit? " inline " : " hidden "} `}
+              } ${isEdit ? " inline " : " hidden "} `}
               onClick={() => handleEdit()}
               disabled={!isComplete}
             >
@@ -196,6 +209,7 @@ export default function User() {
           <DataPagination onChangePagination={handlePaginationChange} />
           {/* <Pagination defaultCurrent={1} current={2} total={500} /> */}
         </div>
+        T
       </div>
     </div>
   );
