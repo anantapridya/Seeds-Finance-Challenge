@@ -1,7 +1,7 @@
 "use client"
 
 import Description from "./components/Description";
-import Parallax from "./components/Parallax";
+import Parallax from "./components/parallax";
 
 
 export default function Home() {
