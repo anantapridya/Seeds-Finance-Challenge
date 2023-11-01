@@ -1,9 +1,9 @@
-import User from "./post";
+import Post from "./post";
 
 export default function Home() {
   return (
     <div>
-        <User />
+        <Post />
     </div>
   );
 }

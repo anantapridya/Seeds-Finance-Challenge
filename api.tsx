@@ -124,6 +124,7 @@ export const deleteUser = async (id: number) => {
         Authorization: `Bearer ${bearerToken}`,
       },
     });
+    console.log(res)
     return res;
   } catch (error) {
     console.log("Error Message: ", error);

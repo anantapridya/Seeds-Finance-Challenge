@@ -4,13 +4,14 @@ import React, { useState } from "react";
 import { IUser } from "../../../type/type";
 import { deleteUser } from "../../../api";
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 interface UserProps {
   user: IUser[];
   onChange: any;
 }
 
-const UserComponent: React.FC<UserProps> = ({ user, onChange }) => {
+export default function UserComponent ({ user, onChange }: UserProps){
   const [isHover, setIsHover] = useState<number>();
   const [isChange, setIsChange] = useState<boolean>(false);
 
@@ -19,8 +20,26 @@ const UserComponent: React.FC<UserProps> = ({ user, onChange }) => {
     const res = await deleteUser(id);
     if (onChange) {
       onChange(id);
+      toast.success(`User: ${id} berhasil dihapus`, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        pauseOnHover: true,
+        theme: "dark",
+      });
+    } else {
+      toast.error(`Terjadi Kesalahan`, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        pauseOnHover: true,
+        theme: "dark",
+      });
     }
+
+
   };
+
   const handleEdit = async (
     e: any,
     id: number,
@@ -98,5 +117,3 @@ const UserComponent: React.FC<UserProps> = ({ user, onChange }) => {
     </div>
   );
 };
-
-export default UserComponent;
