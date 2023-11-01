@@ -1,3 +1,5 @@
+"use client"
+
 import Description from "./components/Description";
 import Parallax from "./components/Parallax";
 
