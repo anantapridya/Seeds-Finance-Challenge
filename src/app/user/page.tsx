@@ -98,9 +98,9 @@ export default function User() {
     <div className="w-full flex flex-col justify-center items-center py-8">
       {/* <button className="absolute top-10 left-24">Back</button> */}
       {/* <Alert message="Berhasil di Buat" type="success" banner closable /> */}
-      <div className="w-[800px] flex flex-col justify-center items-center ">
+          <Navbar select="user" />
+      <div className="w-[800px] mt-10 flex flex-col justify-center items-center ">
         <div>
-          <Navbar />
         </div>
         <p className="font-bold text-3xl my-8">Users</p>
         <div className="w-full">

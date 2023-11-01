@@ -44,11 +44,9 @@ export default function Post() {
   return (
     <div className="w-full flex flex-col justify-center items-center py-8">
       {/* <button className="absolute top-10 left-24">Back</button> */}
-      <div className="w-[800px] flex flex-col justify-center items-center ">
-        <div>
-          <Navbar />
-        </div>
-        <p className="font-bold text-3xl my-8">BLOG</p>
+      <Navbar select="post" />
+      <div className="w-[800px] mt-10 flex flex-col justify-center items-center ">
+        <p className="font-bold text-3xl my-8">POST</p>
         <input
           className="text-black p-2 w-full mb-4"
           placeholder="Search Post"

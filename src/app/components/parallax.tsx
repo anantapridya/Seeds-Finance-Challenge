@@ -6,12 +6,13 @@ import layer3 from "../assets/layer2.png";
 import layer2 from "../assets/layer3.png";
 import layer1 from "../assets/layer4.png";
 import Image from "next/image";
+import { FiChevronsDown } from "react-icons/Fi";
 
 type ParallaxProps = {
   section: string;
-}
+};
 
-export default function Parallax({section}: ParallaxProps) {
+export default function Parallax({ section }: ParallaxProps) {
   const [scrollY, setScrollY] = useState<number>(0);
   const layerRef1 = useRef<HTMLDivElement | null>(null);
   const layerRef2 = useRef<HTMLDivElement | null>(null);
@@ -63,6 +64,14 @@ export default function Parallax({section}: ParallaxProps) {
     }
   }, [scrollY]);
 
+  const scrollToSection = () => {
+    const target = document.getElementById(`${section}`);
+    window.scrollTo({
+      top: target?.offsetTop,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <section className="h-screen relative overflow-hidden">
       <div ref={layerRef4} className="absolute">
@@ -88,6 +97,12 @@ export default function Parallax({section}: ParallaxProps) {
       <div ref={layerRef1} className="absolute">
         <Image src={layer4} alt="layer4" />
       </div>
+      <button
+        className="absolute bottom-5 left-[50%] right-[50%] animate-bounce"
+        onClick={scrollToSection}
+      >
+        <FiChevronsDown size={40} />
+      </button>
     </section>
   );
 }
