@@ -6,7 +6,7 @@ import layer3 from "../assets/layer2.png";
 import layer2 from "../assets/layer3.png";
 import layer1 from "../assets/layer4.png";
 import Image from "next/image";
-import { FiChevronsDown } from "react-icons/Fi";
+import { FiChevronsDown } from "react-icons/fi";
 
 type ParallaxProps = {
   section: string;

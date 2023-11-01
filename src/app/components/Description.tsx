@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { FiArrowRight } from "react-icons/Fi";
+import { FiArrowRight } from "react-icons/fi";
 
 type DescriptionProps = {
   idSection: string;
